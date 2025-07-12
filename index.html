@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 20px;
+      width: 60%;
+      margin: 0 auto 30px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    td {
+      padding: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #e0e0e0;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .button-wrapper {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-btn {
+      background-color: red;
+      color: white;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #outputTable {
+      width: 80%;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>STUDENT FORM</h1>
+
+  <div class="form-container">
+    <table>
+      <tr>
+        <td><label for="name">Name:</label></td>
+        <td><input type="text" id="name" /></td>
+      </tr>
+      <tr>
+        <td><label for="age">Age:</label></td>
+        <td><input type="number" id="age" /></td>
+      </tr>
+      <tr>
+        <td><label>Gender:</label></td>
+        <td>
+          <input type="radio" name="gender" class="gender" value="Male" /> Male
+          <input type="radio" name="gender" class="gender" value="Female" /> Female
+        </td>
+      </tr>
+      <tr>
+        <td><label for="course">Course:</label></td>
+        <td>
+          <select id="course">
+            <option value="HTML">HTML</option>
+            <option value="CSS">CSS</option>
+            <option value="JavaScript">JavaScript</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="email">Email:</label></td>
+        <td><input type="email" id="email" /></td>
+      </tr>
+    </table>
+
+    <div class="button-wrapper">
+      <button onclick="saveDetails()">Save Details</button>
+    </div>
+  </div>
+
+  <table id="outputTable">
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>AGE</th>
+        <th>COURSE</th>
+        <th>GENDER</th>
+        <th>EMAIL</th>
+        <th>ACTION</th>
+      </tr>
+    </thead>
+    <tbody id="outputBody">
+      <!-- Entries will be added here -->
+    </tbody>
+  </table>
+
+  <script>
+    function saveDetails() {
+      var name = document.getElementById("name").value.trim();
+      var age = document.getElementById("age").value.trim();
+      var course = document.getElementById("course").value;
+      var email = document.getElementById("email").value.trim();
+
+      var gender = "";
+      var genderRadios = document.getElementsByClassName("gender");
+      for (let radio of genderRadios) {
+        if (radio.checked) {
+          gender = radio.value;
+          break;
+        }
+      }
+
+      if (!name || !age || !gender || !email) {
+        alert("Please fill in all the fields.");
+        return;
+      }
+
+      var tbody = document.getElementById("outputBody");
+      var row = tbody.insertRow();
+
+      row.innerHTML = `
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${course}</td>
+        <td>${gender}</td>
+        <td>${email}</td>
+        <td><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+      `;
+
+      document.getElementById("name").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("email").value = "";
+      for (let radio of genderRadios) {
+        radio.checked = false;
+      }
+      document.getElementById("course").selectedIndex = 0;
+    }
+
+    function deleteRow(button) {
+      var row = button.parentElement.parentElement;
+      row.remove();
+    }
+  </script>
+</body>
+</html>
